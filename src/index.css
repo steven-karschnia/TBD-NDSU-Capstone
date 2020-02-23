@@ -11,3 +11,35 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.header {
+    width: 100%;
+    background-color: #f1f1f1;
+    height: 100px;
+}
+
+.header .projectName {
+    width: 72%;
+    display: block;
+    float: left;
+    padding: 20px;
+}
+
+.header .user {
+    width: 22%;
+    display: block;
+    float: left;
+    padding: 10px;
+}
+
+.header .user p {
+    width: 25%;
+    display: block;
+    float: right;
+}
+.header .user img {
+    width: 25%;
+    height: auto;
+    display: block;
+    float: right;
+}
