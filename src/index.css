@@ -43,3 +43,9 @@ code {
     display: block;
     float: right;
 }
+#content {
+  width: 100%;
+  height: 20%;
+  background-color: gray;
+  float: clear;
+}
