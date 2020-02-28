@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import './index.css';
+
 import {
     Route,
     NavLink,
@@ -31,19 +32,19 @@ class Main extends Component {
                     </div>
 
                     <div className="Body">
-                        <div>
-                            <ol>
+                        <div className="navLinks">
+                            <ul>
                                 <li> <NavLink to="/view">view</NavLink> </li>
                                 <li> <NavLink to="/create">create</NavLink> </li>
                                 <li> <NavLink to="/App">App</NavLink> </li>
-                            </ol>
+                            </ul>
                         </div>
                         <div id="content">
                             <Route path="/view" component={ViewPage}/>
                             <Route path="/create" component={CreatePage}/>
                             <Route path="/App" component={App}/>
                         </div>
-                    
+
                     </div>
                 </HashRouter>
             </div>
