@@ -13,7 +13,6 @@ import CreatePage from './Project_Create/create';
 import ViewPage from './Project_View/view';
 
 
-
 import App from './App';
 import genericUser from './user.png'
 import * as serviceWorker from './serviceWorker';

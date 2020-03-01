@@ -1,18 +1,92 @@
-import React, { Component } from "react";
- 
-class Create extends Component {
+import React from "react";
+import RGL, { WidthProvider } from "react-grid-layout";
+import './create.css'
+const ReactGridLayout = WidthProvider(RGL);
+const originalLayout = getFromLS("layout") || [];
+/**
+ * This layout demonstrates how to sync to localstorage.
+ */
+export default class LocalStorageLayout extends React.PureComponent {
+  static defaultProps = {
+    className: "layout",
+    cols: 12,
+    rowHeight: 30,
+    onLayoutChange: function() {}
+};
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      layout: JSON.parse(JSON.stringify(originalLayout))
+    };
+
+    this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.resetLayout = this.resetLayout.bind(this);
+  }
+
+  resetLayout() {
+    this.setState({
+      layout: []
+    });
+  }
+
+  onLayoutChange(layout) {
+    /*eslint no-console: 0*/
+    saveToLS("layout", layout);
+    this.setState({ layout });
+    this.props.onLayoutChange(layout); // updates status display
+  }
+
   render() {
     return (
       <div>
-        <p>Cras facilisis urna ornare ex volutpat, et
-        convallis erat elementum. Ut aliquam, ipsum vitae
-        gravida suscipit, metus dui bibendum est, eget rhoncus nibh
-        metus nec massa. Maecenas hendrerit laoreet augue
-        nec molestie. Cum sociis natoque penatibus et magnis
-        dis parturient montes, nascetur ridiculus mus.</p>
+        <button onClick={this.resetLayout}>Reset Layout</button>
+        <ReactGridLayout
+          {...this.props}
+          layout={this.state.layout}
+          onLayoutChange={this.onLayoutChange}
+        >
+          <div key="1" data-grid={{ w: 2, h: 3, x: 0, y: 0 }} className="draggable">
+            <span className="text">1</span>
+          </div>
+          <div key="2" data-grid={{ w: 2, h: 3, x: 2, y: 0 }} className="draggable">
+            <span className="text">2</span>
+          </div>
+          <div key="3" data-grid={{ w: 2, h: 3, x: 4, y: 0 }} className="draggable">
+            <span className="text">3</span>
+          </div>
+          <div key="4" data-grid={{ w: 2, h: 3, x: 6, y: 0 }} className="draggable">
+            <span className="text">4</span>
+          </div>
+          <div key="5" data-grid={{ w: 2, h: 3, x: 8, y: 0 }} className="draggable">
+            <span className="text">5</span>
+          </div>
+        </ReactGridLayout>
       </div>
     );
   }
 }
- 
-export default Create;
+
+function getFromLS(key) {
+  let ls = {};
+  if (global.localStorage) {
+    try {
+      ls = JSON.parse(global.localStorage.getItem("rgl-7")) || {};
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  return ls[key];
+}
+
+function saveToLS(key, value) {
+  if (global.localStorage) {
+    global.localStorage.setItem(
+      "rgl-7",
+      JSON.stringify({
+        [key]: value
+      })
+    );
+  }
+}
