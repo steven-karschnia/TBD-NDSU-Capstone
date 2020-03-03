@@ -35,5 +35,10 @@ class View extends Component {
     }
 }
 
+
+
+
+
+
 ReactDOM.render(<View />,  document.getElementById('root'));
 export default View;

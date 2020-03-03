@@ -43,7 +43,6 @@
     right: 0;
     cursor: se-resize;
 }
-
 .react-grid-item > .react-resizable-handle::after {
     content: "";
     position: absolute;
@@ -54,11 +53,12 @@
     border-right: 2px solid rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid rgba(0, 0, 0, 0.4);
 }
-
 .react-resizable-hide > .react-resizable-handle {
     display: none;
 }
 .draggable {
     background-color: darkgray;
     border: 2px solid black;
+    border-radius: 20%;
+    text-align: center;
 }
