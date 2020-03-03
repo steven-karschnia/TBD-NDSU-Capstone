@@ -25,17 +25,16 @@ export default class LocalStorageLayout extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
-    // this.state = {
-    //   layout: JSON.parse(JSON.stringify(originalLayout))
-    // };
     this.state = {
+      layout: JSON.parse(JSON.stringify(originalLayout)),
       items: [
         {i: "1",  w: 2, h: 3, x: 0, y: 0 },
         {i: "2",  w: 2, h: 3, x: 2, y: 0 }, 
         {i: "3",  w: 2, h: 3, x: 0, y: 0 },
-        {i: "4",  w: 2, h: 3, x: 0, y: 0 },
-        {i: "5",  w: 2, h: 3, x: 0, y: 0 }
+        {i: "4",  w: 2, h: 3, x: 0, y: 0 }
+      ],
+      templates: [
+        {i: "1", w: 3, h: 4, x: 0, y: 0}
       ],
       newCounter: 6
     };
@@ -43,44 +42,6 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.onAddItem = this.onAddItem.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.resetLayout = this.resetLayout.bind(this);
-  }
-
-  createElement(element) {
-    const removeStyle = {
-      position: "absolute",
-      right: "2px",
-      top: 0,
-      cursor: "pointer"
-    };
-    const i = element.add ? "+" : element.i;
-    return (
-      <div key={i} data-grid={element}>
-        {element.add ? (
-          <span className="addText" onClick={this.onAddItem}>
-            Add+
-          </span>
-        ):(
-          <span className="text">{i}</span>
-        )}
-        <span className="remove" style={removeStyle}>
-          x
-        </span>
-      </div>
-    );
-  }
-
-  onAddItem() {
-    console.log("Adding", this.state.counter);
-    this.setState({
-      items: this.state.items.concat({
-        i: this.state.newCounter,
-        x: (this.state.items.length * 2) % (this.state.cols || 12),
-        y: Infinity,
-        w: 2,
-        h: 2
-      }),
-      newCounter: this.state.newCounter + 1
-    });
   }
 
   onAddItem() {
@@ -93,6 +54,25 @@ export default class LocalStorageLayout extends React.PureComponent {
           h: 2  
         }),
         newCounter: this.state.newCounter + 1
+    });
+  }
+
+  onAddItem(event) {
+    let tempId = event.dataTransfer.getData("tempId");
+    
+    this.state.templates.filter((temp) => { 
+      if (temp.i === tempId) {
+        this.setState({
+          items: this.state.items.concat({
+            i: this.state.newCounter,
+            x: temp.x,
+            y: Infinity,
+            w: temp.w,
+            h: temp.h
+          }),
+          newCounter: this.state.newCounter + 1
+        })
+      }
     });
   }
   
@@ -118,12 +98,16 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.props.onLayoutChange(layout); // updates status display
   }
 
-
+  onDragStart = (event, itemID) => {
+      console.log('Beginning dragStart on div: ', itemID);        
+    	event.dataTransfer.setData("taskID", itemID);
+	}
 
 
 
   render() {
     var items = {
+        template: [],
         agile: [],
         prince2: []      
     }
@@ -133,56 +117,48 @@ export default class LocalStorageLayout extends React.PureComponent {
               style = {{backgroundColor: "cyan"}}>
           <span> {item.i} </span>
         </div>
-		  );
+      );
     });
+
+    this.state.templates.forEach ((temp) => {
+      items["template"].push(
+        <div key={temp.i} data-grid={{w: temp.w, h: temp.h, x: temp.x, y: temp.y}}
+             style={{backgroundColor: "cyan"}}
+             onDragStart = {(event) => this.onDragStart(event, temp.i)}
+             draggable >
+              <span> {temp.i} </span>
+          </div>
+      )
+    })
     
 
   return (
       <div>
-        <button  onClick={(event)=>this.onAddItem()}>Add Element</button>
-        <ReactGridLayout
-          onLayoutchange={this.onLayoutChange}
-          // onBreakpointChange={this.onBreakpointChange}
-          {...this.props} >
 
-            {items.agile}
-          
-        </ReactGridLayout>
+        {/* Button crashes, TODO: look at onAddItem function  */}
+        {/* <button  onClick={(event)=>this.onAddItem()}>Add Element</button> */}
+        <div id="container">
+          <div id="toolbox">
+            {items.template}
+          </div>
+          <div id="workspace">
+
+          <ReactGridLayout
+            onLayoutchange={this.onLayoutChange}
+            // onDrop={(event)=>{this.onDrop(event, "inProgress")}}
+            
+            // onBreakpointChange={this.onBreakpointChange}
+            {...this.props} >
+              {items.agile}
+            </ReactGridLayout>
+          </div>
+        </div>
       </div>
     )
   }
-
-
-  // render() {
-  //   return (
-  //     <div>
-  //       <button onClick={this.resetLayout}>Reset Layout</button>
-  //       <ReactGridLayout
-  //         {...this.props}
-  //         layout={this.state.layout}
-  //         onLayoutChange={this.onLayoutChange}
-  //       >
-  //         <div key="1" data-grid={{ w: 2, h: 3, x: 0, y: 0 }} className="draggable">
-  //           <span className="text">1</span>
-  //         </div> 
-  //         <div key="2" data-grid={{ w: 2, h: 3, x: 2, y: 0 }} className="draggable">
-  //           <span className="text">2</span>
-  //         </div>
-  //         <div key="3" data-grid={{ w: 2, h: 3, x: 4, y: 0 }} className="draggable">
-  //           <span className="text">3</span>
-  //         </div>
-  //         <div key="4" data-grid={{ w: 2, h: 3, x: 6, y: 0 }} className="draggable">
-  //           <span className="text">4</span>
-  //         </div>
-  //         <div key="5" data-grid={{ w: 2, h: 3, x: 8, y: 0 }} className="draggable">
-  //           <span className="text">5</span>
-  //         </div>
-  //       </ReactGridLayout>
-  //     </div>
-  //   );
-  // }
-
 }
+
+
 
 function getFromLS(key) {
   let ls = {};

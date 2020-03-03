@@ -62,3 +62,17 @@
     border-radius: 20%;
     text-align: center;
 }
+#toolbox {
+    border: 2px solid black;
+    float: left;
+    position: relative;
+    width: 27%;
+    height: 450px;
+}
+#workspace {
+    border: 2px solid black;
+    float: right;
+    position:relative;
+    width: 72%;
+    height: 450px
+}
