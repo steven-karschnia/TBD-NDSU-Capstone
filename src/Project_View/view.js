@@ -22,32 +22,49 @@ class Module extends Component {
         this.state = {
             values: props.value,
             display: false,
-            bgColor: "white",
             css: {gridColumn: props.col,
-                gridRow: props.row},
+                  gridRow: props.row,},
+            backgroundColor: "white",
+            selectValue: "complete",
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleSubmit() {
-        this.setState({bgColor: "lightgreen"})
+    handleChange(event) {
+        this.setState({selectValue: event.target.value});
+    }
+
+    handleSubmit(event) {
+        if(this.state.selectValue == "complete") {
+            this.setState({backgroundColor: "lightgreen"});
+        } else if(this.state.selectValue == "inProgress") {
+            this.setState({backgroundColor: "yellow"});
+        } else {
+            this.setState({backgroundColor: "white"});
+        }
+        this.setState({display: false});
     }
 
     render() {
         return (
-            <div className={this.state.values[0]} style={this.state.css} onClick={() => this.setState({display: !this.state.display})}>
+          <div style={this.state.css}>
+            <div className={this.state.values[0]} style={{backgroundColor: this.state.backgroundColor}} onClick={() => this.setState({display: !this.state.display})}>
                 {this.state.values[1]}
-                {this.state.display &&
-                    <div className="hiddenForm">
-                        <form onSubmit={() => this.handleSubmit()}>
-                            <select id="complete">
-                                <option>Complete</option>
-                                <option>In-Progress</option>
-                            </select>
-                            <br />
-                            <input type="submit" />
-                        </form>
-                    </div>}
             </div>
+            {this.state.display &&
+                <div className="hiddenForm">
+                    <form onSubmit={this.handleSubmit}>
+                        <select value={this.state.selectValue} onChange={this.handleChange} id="complete">
+                            <option value="complete">Complete</option>
+                            <option value="inProgress">In-Progress</option>
+                            <option value="reset">Reset</option>
+                        </select>
+                        <br />
+                        <input type="submit" />
+                    </form>
+                </div>}
+          </div>
         );
     }
 }

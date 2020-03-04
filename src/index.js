@@ -12,8 +12,6 @@ import {
 import CreatePage from './Project_Create/create';
 import ViewPage from './Project_View/view';
 
-
-import App from './App';
 import genericUser from './user.png'
 import * as serviceWorker from './serviceWorker';
 
@@ -35,13 +33,11 @@ class Main extends Component {
                             <ul>
                                 <li> <NavLink to="/view">view</NavLink> </li>
                                 <li> <NavLink to="/create">create</NavLink> </li>
-                                <li> <NavLink to="/App">App</NavLink> </li>
                             </ul>
                         </div>
                         <div id="content">
                             <Route path="/view" component={ViewPage}/>
                             <Route path="/create" component={CreatePage}/>
-                            <Route path="/App" component={App}/>
                         </div>
 
                     </div>
