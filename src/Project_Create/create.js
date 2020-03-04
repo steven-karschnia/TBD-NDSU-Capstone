@@ -28,10 +28,11 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.state = {
       layout: JSON.parse(JSON.stringify(originalLayout)),
       items: [
-        {i: "1",  w: 2, h: 3, x: 0, y: 0 },
-        {i: "2",  w: 2, h: 3, x: 2, y: 0 }, 
-        {i: "3",  w: 2, h: 3, x: 0, y: 0 },
-        {i: "4",  w: 2, h: 3, x: 0, y: 0 }
+        {i: "1",  w: 2, h: 3, x: 0, y: 0, className: "draggable"},
+        {i: "2",  w: 2, h: 3, x: 2, y: 0, className: "draggable1" }, 
+        {i: "3",  w: 2, h: 3, x: 0, y: 0, className: "draggable2" },
+        {i: "4",  w: 2, h: 3, x: 0, y: 0, className: "draggable3" },
+        {i: "5",  w: 2, h: 3, x: 0, y: 0, className: "arrow_box" }
       ],
       templates: [
         {i: "1", w: 3, h: 4, x: 0, y: 0}
