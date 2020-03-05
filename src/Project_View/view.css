@@ -2,70 +2,71 @@
     display: grid;
     padding: 10px;
     grid-gap: 10px;
-    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
-    color: white;
-    font-weight: bold;
+    grid-template-columns: 2px 100px 2px 100px 100px 2px 100px 100px 100px 100px 50px 100px 2px;
+    color: black;
 }
 
 .startUp {
     padding: 20px;
-    background-color: #1dd18c;
     border-radius: 10px;
-    grid-column: 1;
-    grid-row: 1 / span 2;
+    text-align: center;
+    border: 2px solid black;
 }
 
 .direct {
     padding: 20px;
-    background-color: #d1831d;
     border-radius: 10px;
     text-align: center;
-    grid-column: 2 / span 7;
-    grid-row: 1;
+    border: 2px solid black;
 }
 
 .init {
     padding: 20px;
-    background-color: #008B8B;
     border-radius: 10px;
     text-align: center;
-    grid-column: 2 / span 2;
-    grid-row: 2;
+    border: 2px solid black;
 }
 
 .stage {
     padding: 20px;
-    background-color: #3f1d75;
     border-radius: 10px;
     text-align: center;
-    grid-column: 4 / span 2;
-    grid-row: 2;
+    border: 2px solid black;
 }
 
 .control {
     padding: 20px;
-    background-color: #1db3d1;
     border-radius: 10px;
     text-align: center;
-    grid-column: 6 / span 2;
-    grid-row: 2;
+    border: 2px solid black;
 }
 
 .close {
-    margin-left: 40px;
     padding: 20px;
-    background-color: #d1831d;
     border-radius: 10px;
     text-align: center;
-    grid-column: 8 / span 2;
-    grid-row: 2;
+    border: 2px solid black;
 }
 
 .manage {
     padding: 20px;
-    background-color: #070082;
     border-radius: 10px;
     text-align: center;
-    grid-column: 6 / span 2;
-    grid-row: 3;
+    border: 2px solid black;
+}
+
+.hiddenForm {
+    padding: 25px;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: 2px solid black;
+    z-index: 5;
+    position: fixed;
+    top: auto;
+    left: auto;
+    margin-top: 40px;
 }
