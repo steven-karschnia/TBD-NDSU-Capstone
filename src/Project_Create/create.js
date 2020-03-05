@@ -44,7 +44,7 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.resetLayout = this.resetLayout.bind(this);
   }
 
-  onAddItem() {
+  onAddItem(event) {
     this.setState({
         items: this.state.items.concat({
           i: this.state.newCounter,
@@ -57,24 +57,24 @@ export default class LocalStorageLayout extends React.PureComponent {
     });
   }
 
-  onAddItem(event) {
-    let tempId = event.dataTransfer.getData("tempId");
+  // onAddItem(event) {
+  //   let tempId = event.dataTransfer.getData("tempId");
     
-    this.state.templates.filter((temp) => { 
-      if (temp.i === tempId) {
-        this.setState({
-          items: this.state.items.concat({
-            i: this.state.newCounter,
-            x: temp.x,
-            y: Infinity,
-            w: temp.w,
-            h: temp.h
-          }),
-          newCounter: this.state.newCounter + 1
-        })
-      }
-    });
-  }
+  //   this.state.templates.filter((temp) => { 
+  //     if (temp.i === tempId) {
+  //       this.setState({
+  //         items: this.state.items.concat({
+  //           i: this.state.newCounter,
+  //           x: temp.x,
+  //           y: Infinity,
+  //           w: temp.w,
+  //           h: temp.h
+  //         }),
+  //         newCounter: this.state.newCounter + 1
+  //       })
+  //     }
+  //   });
+  // }
   
 
   onBreakpointChange(breakpoint, cols) {
@@ -111,6 +111,7 @@ export default class LocalStorageLayout extends React.PureComponent {
         agile: [],
         prince2: []      
     }
+
 		this.state.items.forEach ((item) => {
 		  items["agile"].push(
         <div key={item.i} data-grid={{w: item.w, h: item.h, x: item.x, y: item.y}}
@@ -120,6 +121,7 @@ export default class LocalStorageLayout extends React.PureComponent {
       );
     });
 
+    // Pulls from the templates and creates div elements for them.
     this.state.templates.forEach ((temp) => {
       items["template"].push(
         <div key={temp.i} data-grid={{w: temp.w, h: temp.h, x: temp.x, y: temp.y}}
@@ -129,26 +131,28 @@ export default class LocalStorageLayout extends React.PureComponent {
               <span> {temp.i} </span>
           </div>
       )
-    })
+    });
     
 
   return (
       <div>
-
-        {/* Button crashes, TODO: look at onAddItem function  */}
-        {/* <button  onClick={(event)=>this.onAddItem()}>Add Element</button> */}
+        <button  onClick={(event)=>this.onAddItem()}>Add Element</button>
         <div id="container">
+
           <div id="toolbox">
             {items.template}
           </div>
-          <div id="workspace">
 
-          <ReactGridLayout
+          <div id="workspace">
+            <ReactGridLayout
             onLayoutchange={this.onLayoutChange}
-            // onDrop={(event)=>{this.onDrop(event, "inProgress")}}
+            onDrop={(event)=>{this.onAddItem(event)}}
             
             // onBreakpointChange={this.onBreakpointChange}
-            {...this.props} >
+            {...this.props} 
+            measureBeforeMount={false}
+            useCSSTransforms={this.state.mounted}
+            >
               {items.agile}
             </ReactGridLayout>
           </div>
