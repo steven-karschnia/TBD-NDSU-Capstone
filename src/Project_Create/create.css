@@ -69,7 +69,7 @@
     float: right;
     position:relative;
     width: 72%;
-    height: 450px
+    height: 450px;
 }
 .draggable {
     background-color: darkgray;
@@ -109,4 +109,7 @@
 .arrow_box:before {
 	border-color: rgba(194, 225, 245, 0);
 	border-left-color: #c2e1f5;
+}
+.draggable {
+    background-color: cyan;
 }
