@@ -50,7 +50,10 @@ class Module extends Component {
                   gridRow: props.row,
                   height: "100%",},
             backgroundColor: "white",
+            innerDiv: {backgroundColor: "white",
+                       height: props.height,},
             selectValue: "complete",
+
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -74,7 +77,7 @@ class Module extends Component {
     render() {
         return (
           <div style={this.state.css}>
-            <div className={this.state.values[0]} style={{backgroundColor: this.state.backgroundColor}} onClick={() => this.setState({display: !this.state.display})}>
+            <div className={this.state.values[0]} style={this.state.innerDiv} onClick={() => this.setState({display: !this.state.display})}>
                 {this.state.values[1]}
             </div>
             {this.state.display &&
@@ -99,10 +102,10 @@ class View extends Component {
         return (
             <div>
                 <div className="grid">
-                    <Line row="4 / 7" col="1" />
-                    <Line row="4 / 7" col="3" />
-                    <Line row="4 / 7" col="6" />
-                    <Line row="4 / 7" col="15" />
+                    <Line row="4 / 11" col="1" />
+                    <Line row="4 / 11" col="3" />
+                    <Line row="4 / 11" col="6" />
+                    <Line row="4 / 11" col="15" />
 
                     <Arrow row="1" col="2" x1="10" x2="10" y1="0" y2="15" top="-7" left="40" />
                     <Arrow row="2" col="3" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
@@ -118,16 +121,21 @@ class View extends Component {
                     <Arrow row="3" col="13" x1="10" x2="10" y1="25" y2="10" top="-11" left="20" />
                     <Arrow row="6" col="8" x1="10" x2="10" y1="25" y2="10" top="20" left="60" />
 
-                    <Module value={["startUp", "Starting up a Project"]} row="2 / 5" col="2" />
-                    <Module value={["direct", "Directing a Project"]} row="2" col="4 / 14" />
-                    <Module value={["init", "Initiating a Project"]} row="4" col="4 / 6" />
-                    <Module value={["stage", "Managing a Stage Boundary"]} row="4" col="7 / 9" />
-                    <Module value={["control", "Controlling a Stage"]} row="4" col="10 / 12" />
-                    <Module value={["close", "Closing a Project"]} row="4" col="13 / 15" />
-                    <Module value={["manage", "Managing Project Delivery"]} row="6" col="10 / 12" />
-                </div>
-                <div className="grid">
+                    <Module value={["largeModule", "Starting up a Project"]} row="2 / 5" col="2" height="140px"/>
+                    <Module value={["largeModule", "Directing a Project"]} row="2" col="4 / 14" height="40px"/>
+                    <Module value={["largeModule", "Initiating a Project"]} row="4" col="4 / 6" height="40px"/>
+                    <Module value={["largeModule", "Managing a Stage Boundary"]} row="4" col="7 / 9" height="40px"/>
+                    <Module value={["largeModule", "Controlling a Stage"]} row="4" col="10 / 12" height="40px"/>
+                    <Module value={["largeModule", "Closing a Project"]} row="4" col="13 / 15" height="40px"/>
+                    <Module value={["largeModule", "Managing Project Delivery"]} row="6" col="10 / 12" height="40px"/>
 
+                    <div style={{gridArea: "8 / 4 / 10 / 6"}}>
+                        <div className="agileGrid">
+                            <Module value={["smallModule", "IP"]} row="3" col="1 / 4" height="25px"/>
+                            <Module value={["smallModule", "SB"]} row="3" col="4" height="25px"/>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         );

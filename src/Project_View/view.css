@@ -7,60 +7,11 @@
     color: black;
 }
 
-.startUp {
+.largeModule {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     border: 2px solid black;
-    height: 140px;
-}
-
-.direct {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-    height: 40px;
-}
-
-.init {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-    height: 40px;
-}
-
-.stage {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-    height: 40px;
-}
-
-.control {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-    height: 40px;
-}
-
-.close {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-    height: 40px;
-}
-
-.manage {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-    height: 40px;
 }
 
 .hiddenForm {
@@ -77,4 +28,22 @@
     top: auto;
     left: auto;
     margin-top: 40px;
+}
+
+.agileGrid {
+    display: grid;
+    padding: 10px;
+    grid-gap: 10px;
+    grid-template-columns: 40px 40px 40px 40px;
+    grid-template-rows: 25px;
+    color: black;
+}
+
+.smallModule {
+    height: auto;
+    line-height: 22px;
+    border-radius: 5px;
+    text-align: center;
+    border: 2px solid black;
+
 }
