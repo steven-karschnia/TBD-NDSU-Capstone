@@ -50,8 +50,7 @@ class Module extends Component {
                   gridRow: props.row,
                   height: "100%",},
             backgroundColor: "white",
-            innerDiv: {backgroundColor: "white",
-                       height: props.height,},
+            height: props.height,
             selectValue: "complete",
 
         };
@@ -77,7 +76,7 @@ class Module extends Component {
     render() {
         return (
           <div style={this.state.css}>
-            <div className={this.state.values[0]} style={this.state.innerDiv} onClick={() => this.setState({display: !this.state.display})}>
+            <div className={this.state.values[0]} style={{backgroundColor: this.state.backgroundColor, height: this.state.height}} onClick={() => this.setState({display: !this.state.display})}>
                 {this.state.values[1]}
             </div>
             {this.state.display &&
@@ -135,7 +134,7 @@ class View extends Component {
                             <Module value={["smallModule", "SB"]} row="3" col="4" height="25px"/>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         );
