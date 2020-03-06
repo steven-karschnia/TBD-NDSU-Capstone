@@ -5,16 +5,16 @@ import './view.css';
 
 function Arrow(props) {
     const style = {
-        stroke: "blue",
+        stroke: "black",
         strokeWidth: 3,
         gridColumn: props.col,
         gridRow: props.row,
-        marginLeft: -5,
-        marginTop: 20,
+        marginLeft: props.left,
+        marginTop: props.top,
         zIndex: 5,
     };
     return (
-        <svg width="25" height="25" style={style} fill="blue">
+        <svg width="25" height="25" style={style}>
             <defs>
                 <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
                     markerWidth="6" markerHeight="6"
@@ -22,7 +22,7 @@ function Arrow(props) {
                     <path d="M 0 0 L 10 5 L 0 10 z" strokeWidth="1" />
                 </marker>
             </defs>
-            <line x1="0" x2="15" y1="10" y2="10" markerEnd="url(#arrow)"/>
+            <line x1={props.x1} x2={props.x2} y1={props.y1} y2={props.y2} markerEnd="url(#arrow)"/>
         </svg>
     );
 }
@@ -30,7 +30,7 @@ function Arrow(props) {
 function Line(props) {
     const divStyle = {
         width: '0px',
-        border: '2px solid black',
+        border: '2px solid lightgrey',
         gridColumn: props.col,
         gridRow: props.row
     }
@@ -47,7 +47,8 @@ class Module extends Component {
             values: props.value,
             display: false,
             css: {gridColumn: props.col,
-                  gridRow: props.row,},
+                  gridRow: props.row,
+                  height: "100%",},
             backgroundColor: "white",
             selectValue: "complete",
         };
@@ -98,18 +99,32 @@ class View extends Component {
         return (
             <div>
                 <div className="grid">
-                    <Line row="2 / 10" col="1"/>
-                    <Module value={["startUp", "Starting up a Project"]} row="1 / 3" col="2"/>
-                    <Line row="2 / 10" col="3" />
-                    <Arrow row="1" col="3"/>
-                    <Module value={["direct", "Directing a Project"]} row="1" col="4 / 12" />
-                    <Module value={["init", "Initiating a Project"]} row="2" col="4 / 6"/>
-                    <Line row="2 / 10" col="6" />
-                    <Module value={["stage", "Managing a Stage Boundary"]} row="2" col="7 / 9" />
-                    <Module value={["control", "Controlling a Stage"]} row="2" col="9 / 11" />
-                    <Module value={["close", "Closing a Project"]} row="2" col="11 / 13"/>
-                    <Module value={["manage", "Managing Project Delivery"]} row="3" col="9 / 11"/>
-                    <Line row="2 / 10" col="13" />
+                    <Line row="4 / 7" col="1" />
+                    <Line row="4 / 7" col="3" />
+                    <Line row="4 / 7" col="6" />
+                    <Line row="4 / 7" col="15" />
+
+                    <Arrow row="1" col="2" x1="10" x2="10" y1="0" y2="15" top="-7" left="40" />
+                    <Arrow row="2" col="3" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
+                    <Arrow row="3" col="4" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" />
+                    <Arrow row="3" col="5" x1="10" x2="10" y1="25" y2="10" top="-11" left="50" />
+                    <Arrow row="4" col="6" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
+                    <Arrow row="3" col="8" x1="10" x2="10" y1="25" y2="10" top="-11" left="50" />
+                    <Arrow row="3" col="10" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" />
+                    <Arrow row="4" col="9" x1="24" x2="9" y1="10" y2="10" top="40" left="-10" />
+                    <Arrow row="4" col="12" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
+                    <Arrow row="5" col="10" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" />
+                    <Arrow row="5" col="11" x1="10" x2="10" y1="25" y2="10" top="-11" left="50" />
+                    <Arrow row="3" col="13" x1="10" x2="10" y1="25" y2="10" top="-11" left="20" />
+                    <Arrow row="6" col="8" x1="10" x2="10" y1="25" y2="10" top="20" left="60" />
+
+                    <Module value={["startUp", "Starting up a Project"]} row="2 / 5" col="2" />
+                    <Module value={["direct", "Directing a Project"]} row="2" col="4 / 14" />
+                    <Module value={["init", "Initiating a Project"]} row="4" col="4 / 6" />
+                    <Module value={["stage", "Managing a Stage Boundary"]} row="4" col="7 / 9" />
+                    <Module value={["control", "Controlling a Stage"]} row="4" col="10 / 12" />
+                    <Module value={["close", "Closing a Project"]} row="4" col="13 / 15" />
+                    <Module value={["manage", "Managing Project Delivery"]} row="6" col="10 / 12" />
                 </div>
                 <div className="grid">
 
