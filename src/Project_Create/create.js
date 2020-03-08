@@ -17,87 +17,78 @@ export default class LocalStorageLayout extends React.PureComponent {
     className: "layout",
     cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
     rowHeight: 30,
-    verticalCompact: false,
+    compactType: null,
     onLayoutChange: function() {}
   };
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   layout: JSON.parse(JSON.stringify(originalLayout))
-    // };
-
+    
     this.state = {
-      // layout: JSON.parse(JSON.stringify(originalLayout))
-      
-      layout: [1, 2, 3, 4, 5, 12].map(function(i, key, list) {
-        return {
-          i : i.toString(),
-          x : i * 2, y: 0, w: 2, h: 2,
-          add: i === (list.length - 1)
-        };
-      }),
-      toolboxElements: [
-        {i: "t0", h: 1, maxH: 1, w: 1, class: "arrow_box"},
-        {i: "t1", h: 1, w: 3, class: "draggable"}
-      ],
-      newCounter: 0
-    };
-
+        // layout: JSON.parse(JSON.stringify(originalLayout))
+        layout: [1, 2, 3, 4, 6].map(function(i, key, list) {
+          return {
+            i : i.toString(),
+            key: i,
+            x : Number(i), y: Number(i)/2, w: 1, h: 1,
+            add: i === (list.length - 1),
+            class: "draggable"
+          };
+        }),
+        toolboxElements: [
+          {i: "t0", x: 1, y: 1, h: 1, maxH: 1, w: 1, class: "arrow_box"},
+          {i: "t1", h: 1, w: 3, class: "draggable"}
+        ],
+        mounted: false,
+        newCounter: 0,
+        testCounter: 0,
+        collisionState: false
+      };
     this.onAddItem = this.onAddItem.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.resetLayout = this.resetLayout.bind(this);
   }
 
-  createElement(el) {
-    const removeStyle = {
-      position: "absolute",
-      right: "2px",
-      top: 0,
-      cursor: "pointer"
-    };
-    const i = el.add ? "+" : el.i
-    return (
-      <div key={i} data-grid={el}>
-        {el.add ? (
-          <span className="add text" onClick={this.onAddItem}
-                title="You can add an item by clicking here">
-            Add +
-          </span>
 
-        ) : (
-          <span className="text">{i}</span>
-        )}
-        <span className="remove" style={removeStyle}
-              onClick={this.onRemoveItem.bind(this, i)}>
-          x
-        </span>
-      </div>
-    );
+  onAddItem = (elemParams) => {
+    // let id = elementID;
+    console.log("Beginning onAddItem");
+    
+    this.state.toolboxElements.filter((element) => {
+      console.log("Searching for element...")
+      if (element.i === "t0") {
+        console.log("Element Found");
+        var counter = this.state.newCounter;
+        this.setState({
+          layout: this.state.layout.concat([element.i]
+            .map(function(i,key,list) {
+              return {
+                i: i.toString() + counter,
+                key: i,
+                // x: Number(elemParams[0]), y: Number(elemParams[1]), w: Number(elemParams[2]), h: Number(elemParams[3]), maxH: Number(elemParams[4]), 
+                x: 1, y: 2, w: 2, h: 1, maxH: 1,
+                add: i === (list.length-1),
+                class: element.class
+              }
+            })
+          ),
+          newCounter: this.state.newCounter + 1
+        });
+      }
+    });      
   }
-  
-  onAddItem() {
-    this.setState({
-      layout: this.state.layout.concat({
-        i: "n" + this.state.newCounter,
-        x: (this.state.layout.length * 2) % (this.state.cols || 12),
-        y: Infinity, w: 2, h: 2
-      }),
-      newCounter: this.state.newCounter + 1
-    });
+  toggleCollision() {
+    if(this.state.collisionState == false) {
+      this.setState({
+        collisionState: true
+      })
+    } else {
+      this.setState({
+        collisionState: false
+      })
+    }
   }
-
-
-  // onAddItem(template, elemParams) {
-  //   this.setState({
-  //     layout: this.state.layout.concat(
-  //       {id: this.state.newCounter.toString(), w: template.w, h: template.h, maxH: template.maxH, class: template.class },
-        
-  //     ),
-  //     newCounter: this.state.newCounter + 1
-  //   });
-  // }
 
   resetLayout() {
     this.setState({
@@ -112,10 +103,43 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.props.onLayoutChange(layout); // updates status display
   }
 
-  onRemoveItem(i) {
-    this.setState({ items: _.reject(this.state.items, {i: i})});
-  }  
+  removeElement(el) {
+    const removeStyle = { 
+      position: "absolute",
+      right: "2px",
+      top: 0,
+      cursor: "pointer"
+    };
+    const i = el.add ? " + " : el.i
+    return (
+      <div key={i} data-grid={el}>
+          <span className="remove" 
+                style={removeStyle}
+                onClick={this.onRemoveItem.bind(this, i)
+          }>
+            X
+          </span>
+      </div>
+    )
+  }
 
+  onRemoveItem(i) {
+    this.setState({ layout: _.reject(this.state.layout, { i: i})});
+  }
+    
+    // if (this.state.testCounter != 0) {
+    //   var arr = [...this.state.layout]
+    //   var index = arr.indexOf(element);
+    //   arr.splice(index, 1);
+    //   this.setState({
+    //     layout: arr
+    //   });
+    // } else {
+    //   this.setState({
+    //     testCounter: this.state.testCounter + 1
+    //   });
+    // }
+  
 
 
   onBreakpointChange(breakpoint, cols) {
@@ -125,17 +149,19 @@ export default class LocalStorageLayout extends React.PureComponent {
       });
   }
 
-  onDragStart = (event, templateID) => {
-      console.log('Beginning dragStart on div: ', templateID);        
-    	event.dataTransfer.setData("templateID", templateID);
+  onDragStart = (event, elementID) => {
+      console.log('Beginning dragStart on div: ', elementID);
+      event.dataTransfer.setData("elementID", elementID);
+      console.log("Storing element ID: " + elementID);
   }
-  onDrop (event, elemParams) {
-    let templateID = event.dataTransfer.getData("templateID");
-    this.state.toolboxElements.filter((template) => {
-      if(template.i === templateID) {
-        this.onAddItem(template, elemParams);
-      }
-    });
+  // onDrop = (event) => {
+  //   let elementID = event.dataTransfer.getData("elementID");
+  //   console.log("Passing element ID: " + elementID + " to onAddItem method");
+  //   this.onAddItem(elementID);
+  // }
+  onDrop = elemParams => {
+    alert(`Element parameters:\n${JSON.stringify(elemParams, ['x', 'y', 'w', 'h', 'maxH'])}`);
+    this.onAddItem(elemParams);
   }
 
   //=============================================================
@@ -190,12 +216,20 @@ export default class LocalStorageLayout extends React.PureComponent {
         agile: [],
         prince2: []      
     }
+    const removeStyle = {
+      position: "absolute",
+      right: "2px",
+      top: 0,
+      cursor: "pointer"
+    };
 
 		this.state.layout.forEach ((item) => {
 		  items["agile"].push(
-        <div key={item.i} data-grid={{w: item.w, h: item.h, x: item.x, y: item.y}}
-              style = {{backgroundColor: "cyan"}}>
-          <span> {item.i} </span>
+        <div key={item.i} 
+            data-grid={{w: item.w, h: item.h, x: item.x, y: item.y}}
+            className = {item.class}
+        >
+          <span> {item.i} {item.x} {item.y}</span> 
         </div>
       );
     });
@@ -203,7 +237,8 @@ export default class LocalStorageLayout extends React.PureComponent {
     // Pulls from the templates and creates div elements for them.
     this.state.toolboxElements.forEach ((temp) => {
       items["template"].push(
-        <div key={temp.i} data-grid={{w: temp.w, h: temp.h, x: temp.x, y: temp.y}}
+        <div key={temp.i} 
+             data-grid={{w: temp.w, h: temp.h, x: temp.x, y: temp.y}}
              className = {temp.class}
              onDragStart = {(event) => this.onDragStart(event, temp.i)}
              draggable >
@@ -215,6 +250,8 @@ export default class LocalStorageLayout extends React.PureComponent {
   return (
       <div>
         <button  onClick={(event)=>this.onAddItem()}>Add Element</button>
+        <button  onClick={(event)=>this.toggleCollision()}>Toggle Collision: {(!this.state.collisionState).toString()} </button>
+
         <div id="container">
 
           <div id="toolbox">
@@ -223,13 +260,20 @@ export default class LocalStorageLayout extends React.PureComponent {
 
           <div id="workspace">
             <ReactGridLayout
-            onLayoutchange={this.onLayoutChange}
+            onLayoutchange={this.onLayoutChange.bind}
             isDroppable={true}
-            onDrop={(event)=>{this.onAddItem()}}
+            onDrop={this.onDrop}
+            // onDrop={(event)=>{this.onAddItem()}}
             onBreakpointChange={this.onBreakpointChange}
             {...this.props} 
+            
+            measureBeforeMount={false}
+            useCSSTransforms={this.state.mounted}
+            preventCollision={this.state.collisionState}
+            // preventCollision={!this.state.compactType}
             >
               {items.agile}
+              {_.map(this.state.layout, el => this.removeElement(el))}
             </ReactGridLayout>
           </div>
         </div>

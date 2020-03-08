@@ -63,12 +63,13 @@
     position: relative;
     width: 27%;
     height: 450px;
+    padding: 1.5%
 }
 #workspace {
     border: 2px solid black;
     float: right;
     position:relative;
-    width: 72%;
+    width: 69%;
     height: 450px;
 }
 .draggable {
@@ -112,4 +113,6 @@
 }
 .draggable {
     background-color: cyan;
+    border: 2px solid black;
+    border-radius: 100%;
 }
