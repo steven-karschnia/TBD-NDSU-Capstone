@@ -2,53 +2,12 @@
     display: grid;
     padding: 10px;
     grid-gap: 10px;
-    grid-template-columns: 2px 100px 2px 100px 100px 2px 100px 100px 100px 100px 50px 100px 2px;
+    grid-template-columns: 2px 100px 2px 100px 100px 2px 100px 100px 2px 100px 100px 2px 50px 100px 2px;
+    grid-template-rows: 2px 80px 2px 80px 2px 80px;
     color: black;
 }
 
-.startUp {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-
-.direct {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-
-.init {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-
-.stage {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-
-.control {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-
-.close {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-
-.manage {
+.largeModule {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -69,4 +28,22 @@
     top: auto;
     left: auto;
     margin-top: 40px;
+}
+
+.agileGrid {
+    display: grid;
+    padding: 10px;
+    grid-gap: 10px;
+    grid-template-columns: 40px 40px 40px 40px;
+    grid-template-rows: 25px;
+    color: black;
+}
+
+.smallModule {
+    height: auto;
+    line-height: 22px;
+    border-radius: 5px;
+    text-align: center;
+    border: 2px solid black;
+
 }
