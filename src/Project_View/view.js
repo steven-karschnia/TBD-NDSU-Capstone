@@ -14,7 +14,7 @@ function Arrow(props) {
         zIndex: 5,
     };
     return (
-        <svg width="25" height="25" style={style}>
+        <svg width="700" height="25" style={style}>
             <defs>
                 <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
                     markerWidth="6" markerHeight="6"
@@ -128,13 +128,44 @@ class View extends Component {
                     <Module value={["largeModule", "Closing a Project"]} row="4" col="13 / 15" height="40px"/>
                     <Module value={["largeModule", "Managing Project Delivery"]} row="6" col="10 / 12" height="40px"/>
 
-                    <div style={{gridArea: "8 / 4 / 10 / 6"}}>
+                    <Arrow row="9" col="7 / 12" x1="0" x2="625" y1="10" y2="10" />
+                    <div style={{gridArea: "9 / 4 / 11 / 6"}}>
                         <div className="agileGrid">
-                            <Module value={["smallModule", "IP"]} row="3" col="1 / 4" height="25px"/>
-                            <Module value={["smallModule", "SB"]} row="3" col="4" height="25px"/>
+                            <Module value={["smallModule", "IP"]} row="3" col="1 / 6" height="25px"/>
+                            <Module value={["smallModule", "SB"]} row="3" col="6 / 8" height="25px" />
                         </div>
                     </div>
+                    <div style={{gridArea: "9 / 7 / 11 / 9"}}>
+                        <div className="agileGrid">
+                            <Module value={["smallModule", "CS"]} row="4" col="1 / 8" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="5" col="1 / 4" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="5" col="5 / 8" height="25px" />
+                            <Module value={["smallModule", "SB"]} row="3" col="6 / 8" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="9" col="2 / 7" height="25px" />
 
+                            <Arrow row="2" col="1 / 8" x1="0" x2="190" y1="10" y2="10" />
+                        </div>
+                    </div>
+                    <div style={{gridArea: "9 / 10 / 11 / 12"}}>
+                        <div className="agileGrid">
+                            <Module value={["smallModule", "CS"]} row="4" col="1 / 8" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="5" col="1 / 4" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="6" col="5 / 8" height="25px" />
+                            <Module value={["smallModule", "SB"]} row="3" col="6 / 8" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="9" col="2 / 7" height="25px" />
+
+                            <Arrow row="2" col="1 / 8" x1="0" x2="190" y1="10" y2="10" />
+                        </div>
+                    </div>
+                    <div style={{gridArea: "9 / 12 / 11 / 13"}}>
+                        <div className="agileGrid">
+                            <Module value={["smallModule", "CS"]} row="4" col="1 / 7" height="25px" />
+                            <Module value={["smallModule", "MPD"]} row="5" col="1 / 3" height="25px" />
+                            <Module value={["smallModule", "CP"]} row="3" col="5 / 7" height="25px" />
+
+                            <Arrow row="2" col="1 / 8" x1="0" x2="160" y1="10" y2="10" />
+                        </div>
+                    </div>
                 </div>
             </div>
         );

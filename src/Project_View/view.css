@@ -32,9 +32,8 @@
 
 .agileGrid {
     display: grid;
-    padding: 10px;
     grid-gap: 10px;
-    grid-template-columns: 40px 40px 40px 40px;
+    grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px;
     grid-template-rows: 25px;
     color: black;
 }
