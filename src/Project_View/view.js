@@ -14,15 +14,20 @@ function Arrow(props) {
         zIndex: 5,
     };
     return (
-        <svg width="700" height="25" style={style}>
+        <svg width="700" height="50" style={style}>
             <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
+                <marker id="arrow" viewBox="0 0 40 40" refX="0" refY="20"
                     markerWidth="6" markerHeight="6"
                     orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" strokeWidth="1" />
+                    <path d="M 0 0 L 40 20 L 0 40 Z" strokeWidth="1" />
                 </marker>
             </defs>
             <line x1={props.x1} x2={props.x2} y1={props.y1} y2={props.y2} markerEnd="url(#arrow)"/>
+            <line x1={props.x1} x2={props.x2} y1={props.y1} y2={props.y2} strokeWidth={props.strokeWidth}/>
+            <text x={(props.x1+props.x2)/2} y="15" textAnchor="middle"
+                style={{fill: "white", stroke: "white", lineHeight: "1", strokeWidth: "1", fontSize: "small"}}>
+                {props.text}
+            </text>
         </svg>
     );
 }
@@ -30,7 +35,7 @@ function Arrow(props) {
 function Line(props) {
     const divStyle = {
         width: '0px',
-        border: '2px solid lightgrey',
+        border: props.border,
         gridColumn: props.col,
         gridRow: props.row
     }
@@ -101,24 +106,26 @@ class View extends Component {
         return (
             <div>
                 <div className="grid">
-                    <Line row="4 / 11" col="1" />
-                    <Line row="4 / 11" col="3" />
-                    <Line row="4 / 11" col="6" />
-                    <Line row="4 / 11" col="15" />
+                    <Line row="4 / 11" col="1" border="1px solid grey" />
+                    <Line row="4 / 11" col="3" border="1px solid grey" />
+                    <Line row="4 / 11" col="6" border="1px solid grey" />
+                    <Line row="4 / 11" col="15" border="1px solid grey" />
+                    <Line row="9 / 11" col="9" border="1px dashed grey" />
+                    <Line row="9 / 11" col="12" border="1px dashed grey" />
 
-                    <Arrow row="1" col="2" x1="10" x2="10" y1="0" y2="15" top="-7" left="40" />
-                    <Arrow row="2" col="3" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
-                    <Arrow row="3" col="4" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" />
-                    <Arrow row="3" col="5" x1="10" x2="10" y1="25" y2="10" top="-11" left="50" />
-                    <Arrow row="4" col="6" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
-                    <Arrow row="3" col="8" x1="10" x2="10" y1="25" y2="10" top="-11" left="50" />
-                    <Arrow row="3" col="10" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" />
-                    <Arrow row="4" col="9" x1="24" x2="9" y1="10" y2="10" top="40" left="-10" />
-                    <Arrow row="4" col="12" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" />
-                    <Arrow row="5" col="10" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" />
-                    <Arrow row="5" col="11" x1="10" x2="10" y1="25" y2="10" top="-11" left="50" />
-                    <Arrow row="3" col="13" x1="10" x2="10" y1="25" y2="10" top="-11" left="20" />
-                    <Arrow row="6" col="8" x1="10" x2="10" y1="25" y2="10" top="20" left="60" />
+                    <Arrow row="1" col="2" x1="10" x2="10" y1="0" y2="15" top="-7" left="40" strokeWidth="10"/>
+                    <Arrow row="2" col="3" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" strokeWidth="10"/>
+                    <Arrow row="3" col="4" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" strokeWidth="10"/>
+                    <Arrow row="3" col="5" x1="10" x2="10" y1="35" y2="20" top="-21" left="50" strokeWidth="10"/>
+                    <Arrow row="4" col="6" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" strokeWidth="10"/>
+                    <Arrow row="3" col="8" x1="10" x2="10" y1="35" y2="20" top="-21" left="50" strokeWidth="10"/>
+                    <Arrow row="3" col="10" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" strokeWidth="10"/>
+                    <Arrow row="4" col="9" x1="35" x2="20" y1="10" y2="10" top="40" left="-21" strokeWidth="10"/>
+                    <Arrow row="4" col="12" x1="0" x2="15" y1="10" y2="10" top="40" left="-10" strokeWidth="10"/>
+                    <Arrow row="5" col="10" x1="10" x2="10" y1="0" y2="15" top="-7" left="20" strokeWidth="10"/>
+                    <Arrow row="5" col="11" x1="10" x2="10" y1="35" y2="20" top="-21" left="50" strokeWidth="10"/>
+                    <Arrow row="3" col="13" x1="10" x2="10" y1="35" y2="20" top="-21" left="20" strokeWidth="10"/>
+                    <Arrow row="6" col="8" x1="10" x2="10" y1="35" y2="20" top="20" left="60" strokeWidth="10"/>
 
                     <Module value={["largeModule", "Starting up a Project"]} row="2 / 5" col="2" height="140px"/>
                     <Module value={["largeModule", "Directing a Project"]} row="2" col="4 / 14" height="40px"/>
@@ -128,7 +135,10 @@ class View extends Component {
                     <Module value={["largeModule", "Closing a Project"]} row="4" col="13 / 15" height="40px"/>
                     <Module value={["largeModule", "Managing Project Delivery"]} row="6" col="10 / 12" height="40px"/>
 
-                    <Arrow row="9" col="7 / 12" x1="0" x2="625" y1="10" y2="10" />
+                    <Arrow row="9" col="7 / 12" x1="0" x2="615" y1="10" y2="10" text="Project Timebox" strokeWidth="15"/>
+
+                    <hr style={{gridRow: "8", gridColumn: "2 / 15", border: "2px solid lightgrey", width: "100%"}}/>
+
                     <div style={{gridArea: "9 / 4 / 11 / 6"}}>
                         <div className="agileGrid">
                             <Module value={["smallModule", "IP"]} row="3" col="1 / 6" height="25px"/>
@@ -143,7 +153,7 @@ class View extends Component {
                             <Module value={["smallModule", "SB"]} row="3" col="6 / 8" height="25px" />
                             <Module value={["smallModule", "MPD"]} row="9" col="2 / 7" height="25px" />
 
-                            <Arrow row="2" col="1 / 8" x1="0" x2="190" y1="10" y2="10" />
+                            <Arrow row="2" col="1 / 8" x1="0" x2="190" y1="10" y2="10" text="Stage 1 Timebox" strokeWidth="15" />
                         </div>
                     </div>
                     <div style={{gridArea: "9 / 10 / 11 / 12"}}>
@@ -154,16 +164,16 @@ class View extends Component {
                             <Module value={["smallModule", "SB"]} row="3" col="6 / 8" height="25px" />
                             <Module value={["smallModule", "MPD"]} row="9" col="2 / 7" height="25px" />
 
-                            <Arrow row="2" col="1 / 8" x1="0" x2="190" y1="10" y2="10" />
+                            <Arrow row="2" col="1 / 8" x1="0" x2="190" y1="10" y2="10" text="Stage 2 Timebox" strokeWidth="15" />
                         </div>
                     </div>
-                    <div style={{gridArea: "9 / 12 / 11 / 13"}}>
+                    <div style={{gridArea: "9 / 13 / 11 / 14"}}>
                         <div className="agileGrid">
                             <Module value={["smallModule", "CS"]} row="4" col="1 / 7" height="25px" />
                             <Module value={["smallModule", "MPD"]} row="5" col="1 / 3" height="25px" />
                             <Module value={["smallModule", "CP"]} row="3" col="5 / 7" height="25px" />
 
-                            <Arrow row="2" col="1 / 8" x1="0" x2="160" y1="10" y2="10" />
+                            <Arrow row="2" col="1 / 7" x1="0" x2="150" y1="10" y2="10" text="Final Stage Timebox" strokeWidth="15" />
                         </div>
                     </div>
                 </div>

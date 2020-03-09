@@ -23,11 +23,10 @@
     color: white;
     font-weight: bold;
     border: 2px solid black;
-    z-index: 5;
+    z-index: 25;
     position: fixed;
-    top: auto;
-    left: auto;
-    margin-top: 40px;
+    top: 50%;
+    left: 50%;
 }
 
 .agileGrid {
