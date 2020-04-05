@@ -22,7 +22,7 @@ services:
       - "5433:5433"
   api:
     build: ./api
-    command: ["./wait-for-postgres.sh", "db", "python3", "manage.py", "runserver"]
+    command: python manage.py runserver
     networks:
       - backend
     volumes:

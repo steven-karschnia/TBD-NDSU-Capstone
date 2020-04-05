@@ -101,6 +101,38 @@ class Module extends Component {
     }
 }
 
+class Background extends Component {
+    constructor() {
+        super();
+        this.state = {
+            username: "",
+            url: ""
+        };
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:8000/users', {
+            method: 'GET',
+            headers: new Headers({
+                Accept: 'application/json'
+            }),
+            username: 'admin',
+            password: 'admin'
+        }).then(response => {return response.json()})
+          .then(data => {
+              console.log(data);
+              this.setState(this.state.username, data.results.username);
+              this.setState(this.state.url, data.results.url);
+          });
+    }
+
+    render() {
+        return(
+            <p>Username: {this.state.username}<br />Url: {this.state.url}</p>
+        );
+    }
+}
+
 class View extends Component {
     render() {
         return (
@@ -177,6 +209,7 @@ class View extends Component {
                         </div>
                     </div>
                 </div>
+                <Background />
             </div>
         );
     }
