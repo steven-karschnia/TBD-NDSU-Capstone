@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import './view.css';
 
-
 function Arrow(props) {
     const style = {
         stroke: "black",
@@ -54,7 +53,7 @@ class Module extends Component {
             css: {gridColumn: props.col,
                   gridRow: props.row,
                   height: "100%",},
-            backgroundColor: "white",
+            background: "linear-gradient(90deg, lightgreen 0%, white 0%)",
             height: props.height,
             selectValue: "complete",
 
@@ -68,12 +67,16 @@ class Module extends Component {
     }
 
     handleSubmit(event) {
-        if(this.state.selectValue == "complete") {
-            this.setState({backgroundColor: "lightgreen"});
-        } else if(this.state.selectValue == "inProgress") {
-            this.setState({backgroundColor: "yellow"});
+        if(this.state.selectValue == "25%") {
+            this.setState({background: "linear-gradient(90deg, lightgreen 25%, white 25%)"});
+        } else if(this.state.selectValue == "50%") {
+            this.setState({background: "linear-gradient(90deg, lightgreen 50%, white 50%)"});
+        } else if(this.state.selectValue == "75%") {
+            this.setState({background: "linear-gradient(90deg, lightgreen 75%, white 75%)"});
+        } else if(this.state.selectValue == "100%") {
+            this.setState({background: "linear-gradient(90deg, lightgreen 100%, white 100%)"});
         } else {
-            this.setState({backgroundColor: "white"});
+            this.setState({background: "linear-gradient(90deg, lightgreen 0%, white 0%)"});
         }
         this.setState({display: false});
     }
@@ -81,16 +84,18 @@ class Module extends Component {
     render() {
         return (
           <div style={this.state.css}>
-            <div className={this.state.values[0]} style={{backgroundColor: this.state.backgroundColor, height: this.state.height}} onClick={() => this.setState({display: !this.state.display})}>
+            <div className={this.state.values[0]} style={{background: this.state.background, height: this.state.height}} onClick={() => this.setState({display: !this.state.display})}>
                 {this.state.values[1]}
             </div>
             {this.state.display &&
                 <div className="hiddenForm">
                     <form onSubmit={this.handleSubmit}>
                         <select value={this.state.selectValue} onChange={this.handleChange} id="complete">
-                            <option value="complete">Complete</option>
-                            <option value="inProgress">In-Progress</option>
-                            <option value="reset">Reset</option>
+                            <option value="0%">0%</option>
+                            <option value="25%">25%</option>
+                            <option value="50%">50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
                         </select>
                         <br />
                         <input type="submit" />
@@ -105,30 +110,32 @@ class Background extends Component {
     constructor() {
         super();
         this.state = {
-            username: "",
-            url: ""
+            users: [],
+            received: false
         };
     }
 
-    componentDidMount() {
-        fetch('http://localhost:8000/users', {
-            method: 'GET',
-            headers: new Headers({
-                Accept: 'application/json'
-            }),
-            username: 'admin',
-            password: 'admin'
-        }).then(response => {return response.json()})
-          .then(data => {
-              console.log(data);
-              this.setState(this.state.username, data.results.username);
-              this.setState(this.state.url, data.results.url);
+    async componentDidMount() {
+        try {
+          const res = await fetch('http://127.0.0.1:8000/users/',
+                            {
+                                method: 'GET',
+                                headers: new Headers({'Authorization': 'Basic YWRtaW46YWRtaW4='})
+                            });
+          const users = await res.json();
+          console.log(users)
+          this.setState({
+            users
           });
+          this.setState({received: true});
+        } catch (e) {
+          console.log(e);
+        }
     }
 
     render() {
         return(
-            <p>Username: {this.state.username}<br />Url: {this.state.url}</p>
+            <p>{this.state.received && this.state.users.results[0].username}</p>
         );
     }
 }

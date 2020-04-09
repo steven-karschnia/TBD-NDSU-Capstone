@@ -3,9 +3,6 @@ version: '3'
 services:
   web:
     build: ./react
-    networks:
-      - backend
-      - frontend
     volumes:
       - ./react:/app
       - /app/node_modules
@@ -13,24 +10,17 @@ services:
       - "3000:3000"
   db:
     image: postgres:12-alpine
-    networks:
-      - backend
     environment:
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_DB=postgres'
     ports:
-      - "5433:5433"
+      - "55433:55433"
   api:
     build: ./api
     command: python manage.py runserver
-    networks:
-      - backend
     volumes:
       - ./api:/python
     ports:
       - "8000:8000"
     depends_on:
-      - web
-networks:
-    frontend:
-    backend:
+      - db
