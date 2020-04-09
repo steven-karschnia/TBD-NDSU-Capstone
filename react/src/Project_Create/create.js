@@ -15,34 +15,34 @@ export default class LocalStorageLayout extends React.PureComponent {
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
     rowHeight: 30,
     compactType: null,
-    onLayoutChange: function() {}
+    onLayoutChange: function () {},
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      // layout: JSON.parse(JSON.stringify(originalLayout))
-      layout: [1, 2, 3, 4, 6].map(function(i, key, list) {
+      layout: [1, 2, 3, 4, 6].map(function (i, key, list) {
         return {
           i: i.toString(),
           key: i,
           x: Number(i),
           y: Number(i) / 2,
           w: 1,
-          h: 1,
+          h: 7 / 4,
+          minH: 3 / 2,
           add: i === list.length - 1,
-          class: "draggable"
         };
       }),
+      /* Elements that will appear in the toolbox */
       toolboxElements: [
         { i: "t0", x: 1, y: 1, h: 1, maxH: 1, w: 1, class: "arrow_box" },
-        { i: "t1", h: 1, w: 3, class: "draggable" }
+        { i: "t1", h: 1, w: 3, class: "draggable" },
       ],
       mounted: false,
       newCounter: 0,
       testCounter: 0,
-      collisionState: false
+      collisionState: false,
     };
 
     this.onAddItem = this.onAddItem.bind(this);
@@ -51,18 +51,19 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.resetLayout = this.resetLayout.bind(this);
   }
 
-  onAddItem = elemParams => {
+  /* Function for adding items to the workspace */
+  onAddItem = (elemParams) => {
     // let id = elementID;
     console.log("Beginning onAddItem");
 
-    this.state.toolboxElements.filter(element => {
+    this.state.toolboxElements.filter((element) => {
       console.log("Searching for element...");
       if (element.i === "t0") {
         console.log("Element Found");
         var counter = this.state.newCounter;
         this.setState({
           layout: this.state.layout.concat(
-            [element.i].map(function(i, key, list) {
+            [element.i].map(function (i, key, list) {
               return {
                 i: i.toString() + counter,
                 key: i,
@@ -73,31 +74,32 @@ export default class LocalStorageLayout extends React.PureComponent {
                 h: 1,
                 maxH: 1,
                 add: i === list.length - 1,
-                class: element.class
+                class: element.class,
               };
             })
           ),
-          newCounter: this.state.newCounter + 1
+          newCounter: this.state.newCounter + 1,
         });
       }
     });
   };
 
+  /* Function to prevent items from colliding */
   toggleCollision() {
     if (this.state.collisionState === false) {
       this.setState({
-        collisionState: true
+        collisionState: true,
       });
     } else {
       this.setState({
-        collisionState: false
+        collisionState: false,
       });
     }
   }
 
   resetLayout() {
     this.setState({
-      layout: []
+      layout: [],
     });
   }
 
@@ -108,27 +110,7 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.props.onLayoutChange(layout); // updates status display
   }
 
-  // removeElement(el) {
-  //   const removeStyle = {
-  //     position: "absolute",
-  //     right: "2px",
-  //     top: 0,
-  //     cursor: "pointer"
-  //   };
-  //   const i = el.add ? " + " : el.i;
-  //   return (
-  //     <div key={i} data-grid={el}>
-  //       <span
-  //         className="remove"
-  //         style={removeStyle}
-  //         onClick={this.onRemoveItem.bind(this, i)}
-  //       >
-  //         X
-  //       </span>
-  //     </div>
-  //   );
-  // }
-
+  // For removing items
   onRemoveItem(i) {
     this.setState({ layout: _.reject(this.state.layout, { i: i }) });
   }
@@ -149,7 +131,7 @@ export default class LocalStorageLayout extends React.PureComponent {
   onBreakpointChange(breakpoint, cols) {
     this.setState({
       breakpoint: breakpoint,
-      cols: cols
+      cols: cols,
     });
   }
 
@@ -158,19 +140,15 @@ export default class LocalStorageLayout extends React.PureComponent {
     event.dataTransfer.setData("elementID", elementID);
     console.log("Storing element ID: " + elementID);
   };
-  // onDrop = (event) => {
-  //   let elementID = event.dataTransfer.getData("elementID");
-  //   console.log("Passing element ID: " + elementID + " to onAddItem method");
-  //   this.onAddItem(elementID);
-  // }
-  onDrop = elemParams => {
+
+  onDrop = (elemParams) => {
     alert(
       `Element parameters:\n${JSON.stringify(elemParams, [
         "x",
         "y",
         "w",
         "h",
-        "maxH"
+        "maxH",
       ])}`
     );
     this.onAddItem(elemParams);
@@ -226,52 +204,52 @@ export default class LocalStorageLayout extends React.PureComponent {
     var items = {
       template: [],
       agile: [],
-      prince2: []
+      prince2: [],
     };
-    // const removeStyle = {
-    //   position: "fixed",
-    //   right: "2px",
-    //   top: 0,
-    //   cursor: "pointer"
-    // };
 
-    this.state.layout.forEach(item => {
+    this.state.layout.forEach((item) => {
       const removeStyle = {
+        // For the remove icon
         position: "absolute",
         right: "2px",
         top: 0,
-        cursor: "pointer"
+        cursor: "pointer",
       };
 
       items["agile"].push(
         <div
           key={item.i}
           data-grid={{ w: item.w, h: item.h, x: item.x, y: item.y }}
-          className={item.class}
         >
-          <span>
+          <div class="wrapper">
             {" "}
-            {item.i} {item.x} {item.y}
-          </span>
-          <span
-            className="remove"
-            style={removeStyle}
-            onClick={this.onRemoveItem.bind(this, item.i)}
-          >
-            X
-          </span>
+            {/* This class allows for scaling items */}
+            <div class="draggable-items">
+              <span>
+                {" "}
+                {item.i} {item.x} {item.y} {item.w}
+              </span>
+
+              <span
+                style={removeStyle}
+                onClick={this.onRemoveItem.bind(this, item.i)}
+              >
+                X
+              </span>
+            </div>
+          </div>
         </div>
       );
     });
 
     // Pulls from the templates and creates div elements for them.
-    this.state.toolboxElements.forEach(temp => {
+    this.state.toolboxElements.forEach((temp) => {
       items["template"].push(
         <div
           key={temp.i}
           data-grid={{ w: temp.w, h: temp.h, x: temp.x, y: temp.y }}
           className={temp.class}
-          onDragStart={event => this.onDragStart(event, temp.i)}
+          onDragStart={(event) => this.onDragStart(event, temp.i)}
           draggable
         >
           <span> {temp.i} </span>
@@ -281,8 +259,8 @@ export default class LocalStorageLayout extends React.PureComponent {
 
     return (
       <div>
-        <button onClick={event => this.onAddItem()}>Add Element</button>
-        <button onClick={event => this.toggleCollision()}>
+        <button onClick={(event) => this.onAddItem()}>Add Element</button>
+        <button onClick={(event) => this.toggleCollision()}>
           Toggle Collision: {(!this.state.collisionState).toString()}{" "}
         </button>
 
@@ -303,7 +281,6 @@ export default class LocalStorageLayout extends React.PureComponent {
               // preventCollision={!this.state.compactType}
             >
               {items.agile}
-              {/* {_.map(this.state.layout, i => this.removeElement(i))} */}
             </ReactGridLayout>
           </div>
         </div>
@@ -329,7 +306,7 @@ function saveToLS(key, value) {
     global.localStorage.setItem(
       "rgl-7",
       JSON.stringify({
-        [key]: value
+        [key]: value,
       })
     );
   }
