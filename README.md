@@ -7,4 +7,5 @@ NDSU Capstone project for TBD
 
 # To run application:
 Prerequisites: docker, docker-compose
+
 In the base directory, run `docker-compose build` and `docker-compose up`
