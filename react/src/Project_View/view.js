@@ -120,7 +120,7 @@ class Background extends Component {
           const res = await fetch('http://127.0.0.1:8000/users/',
                             {
                                 method: 'GET',
-                                headers: new Headers({'Authorization': 'Basic YWRtaW46YWRtaW4='})
+                                headers: new Headers({'Authorization': 'Basic cm9vdDpyb290'})
                             });
           const users = await res.json();
           console.log(users)
