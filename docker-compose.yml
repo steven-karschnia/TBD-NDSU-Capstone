@@ -18,6 +18,8 @@ services:
        MYSQL_USER: 'root'
        MYSQL_PASSWORD: 'password'
        MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+        - ./sql:/docker-entrypoint-initdb.d
   api:
     build: ./api
     command: python manage.py runserver 0.0.0.0:8000

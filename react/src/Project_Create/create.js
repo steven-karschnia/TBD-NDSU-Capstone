@@ -105,9 +105,10 @@ export default class LocalStorageLayout extends React.PureComponent {
 
   onLayoutChange(layout) {
     /*eslint no-console: 0*/
-    saveToLS("layout", layout);
+    sendToDb(layout);
     this.setState({ layout });
     this.props.onLayoutChange(layout); // updates status display
+    console.log("layout changed");
   }
 
   // For removing items
@@ -269,7 +270,7 @@ export default class LocalStorageLayout extends React.PureComponent {
 
           <div id="workspace">
             <ReactGridLayout
-              onLayoutchange={this.onLayoutChange.bind}
+              onLayoutchange={this.onLayoutChange}
               isDroppable={true}
               onDrop={this.onDrop}
               // onDrop={(event)=>{this.onAddItem()}}
@@ -310,4 +311,14 @@ function saveToLS(key, value) {
       })
     );
   }
+}
+
+function sendToDb(value) {
+    const res = fetch('http://127.0.0.1:8000/projects/',
+                      {
+                          method: 'POST',
+                          headers: new Headers({'Authorization': 'Basic cm9vdDpyb290'}),
+                          body: JSON.stringify({data: value})
+                      });
+    console.log(res);
 }

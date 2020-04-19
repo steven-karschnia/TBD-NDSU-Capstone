@@ -2,8 +2,6 @@
     display: grid;
     padding: 10px;
     grid-gap: 10px;
-    grid-template-columns: 2px 100px 2px 100px 100px 2px 100px 100px 2px 100px 100px 2px 50px 100px 2px;
-    grid-template-rows: 2px 80px 2px 80px 2px 80px;
     color: black;
 }
 
