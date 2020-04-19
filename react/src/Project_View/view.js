@@ -55,7 +55,7 @@ class Module extends Component {
                   height: "100%",},
             background: "linear-gradient(90deg, lightgreen 0%, white 0%)",
             height: props.height,
-            selectValue: "complete",
+            selectValue: 0,
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -67,17 +67,8 @@ class Module extends Component {
     }
 
     handleSubmit(event) {
-        if(this.state.selectValue == "25%") {
-            this.setState({background: "linear-gradient(90deg, lightgreen 25%, white 25%)"});
-        } else if(this.state.selectValue == "50%") {
-            this.setState({background: "linear-gradient(90deg, lightgreen 50%, white 50%)"});
-        } else if(this.state.selectValue == "75%") {
-            this.setState({background: "linear-gradient(90deg, lightgreen 75%, white 75%)"});
-        } else if(this.state.selectValue == "100%") {
-            this.setState({background: "linear-gradient(90deg, lightgreen 100%, white 100%)"});
-        } else {
-            this.setState({background: "linear-gradient(90deg, lightgreen 0%, white 0%)"});
-        }
+        var background = "linear-gradient(90deg, lightgreen " + this.state.selectValue + "%, white " + this.state.selectValue + "%)";
+        this.setState({background});
         this.setState({display: false});
     }
 
@@ -90,13 +81,8 @@ class Module extends Component {
             {this.state.display &&
                 <div className="hiddenForm">
                     <form onSubmit={this.handleSubmit}>
-                        <select value={this.state.selectValue} onChange={this.handleChange} id="complete">
-                            <option value="0%">0%</option>
-                            <option value="25%">25%</option>
-                            <option value="50%">50%</option>
-                            <option value="75%">75%</option>
-                            <option value="100%">100%</option>
-                        </select>
+                        <input className="slider" value={this.state.selectValue} onChange={this.handleChange} id="complete" type="range" min="1" max="100" />
+                        <label for="complete">{this.state.selectValue}%</label>
                         <br />
                         <input type="submit" />
                     </form>
