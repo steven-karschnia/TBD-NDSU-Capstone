@@ -47,15 +47,16 @@ function Line(props) {
 class Module extends Component {
     constructor(props) {
         super(props);
+        var background = "linear-gradient(90deg, lightgreen " + props.progress + "%, white " + props.progress + "%)";
         this.state = {
             values: props.value,
             display: false,
             css: {gridColumn: props.col,
                   gridRow: props.row,
                   height: "100%",},
-            background: "linear-gradient(90deg, lightgreen 0%, white 0%)",
+            background: background,
             height: props.height,
-            selectValue: 0,
+            selectValue: props.progress,
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -70,6 +71,7 @@ class Module extends Component {
         var background = "linear-gradient(90deg, lightgreen " + this.state.selectValue + "%, white " + this.state.selectValue + "%)";
         this.setState({background});
         this.setState({display: false});
+
     }
 
     render() {
@@ -92,7 +94,7 @@ class Module extends Component {
     }
 }
 
-class Background extends Component {
+class Layout extends Component {
     constructor() {
         super();
         this.state = {
@@ -126,7 +128,7 @@ class Background extends Component {
         const items = [];
         for(const item of this.state.layout) {
             items.push(
-                <Module value={["largeModule","Element"]} row={item.x + " / " + item.w} col={item.y + " / " + item.h} height={(item.w * 40) + "px"}/>
+                <Module value={["largeModule",item.type]} row={item.x + " / span " + item.w} col={item.y + " / span " + item.h} height={(item.w * 40) + "px"} progress={item.progress}/>
             );
         }
         return(
@@ -139,7 +141,7 @@ class View extends Component {
     render() {
         return (
             <div>
-                <Background />
+                <Layout />
             </div>
         );
 

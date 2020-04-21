@@ -36,8 +36,8 @@ class Main extends Component {
                             </ul>
                         </div>
                         <div id="content">
-                            <Route path="/view" component={ViewPage}/>
-                            <Route path="/create" component={CreatePage}/>
+                            <Route path="/view" render={(props) => <ViewPage {...props} project="2"/>}/>
+                            <Route path="/create" render={(props) => <CreatePage {...props} project="2"/>}/>
                         </div>
 
                     </div>

@@ -32,6 +32,8 @@ export default class LocalStorageLayout extends React.PureComponent {
           h: 7 / 4,
           minH: 3 / 2,
           add: i === list.length - 1,
+          progress: 0,
+          type: "Starting a Project",
         };
       }),
       /* Elements that will appear in the toolbox */
@@ -43,6 +45,7 @@ export default class LocalStorageLayout extends React.PureComponent {
       newCounter: 0,
       testCounter: 0,
       collisionState: false,
+      project: props.project,
     };
 
     this.onAddItem = this.onAddItem.bind(this);
@@ -105,7 +108,6 @@ export default class LocalStorageLayout extends React.PureComponent {
 
   onLayoutChange(layout) {
     /*eslint no-console: 0*/
-    sendToDb(layout);
     this.setState({ layout });
     this.props.onLayoutChange(layout); // updates status display
     console.log("layout changed");
@@ -155,6 +157,37 @@ export default class LocalStorageLayout extends React.PureComponent {
     this.onAddItem(elemParams);
   };
 
+  async saveLayout() {
+      console.log(this.state.layout);
+      var layoutData = {
+          name: 'Test',
+          company: 'TBD',
+          data: {elements:[]},
+      };
+      var elements = [];
+      for(var i = 0; i < this.state.layout.length; i++) {
+          var element = this.state.layout[i];
+          var item = {
+              x: Math.round(element.x),
+              y: Math.round(element.y),
+              w: Math.round(element.w),
+              h: Math.round(element.h),
+              progress: element.progress,
+              type: element.type
+          }
+          elements.push(item);
+      }
+      layoutData.data.elements = elements;
+      layoutData.data = JSON.stringify(layoutData.data);
+      const req = await fetch('http://127.0.0.1:8000/projects/' + this.state.project + '/',
+                            {
+                                method: 'PUT',
+                                headers: new Headers({'Authorization': 'Basic cm9vdDpyb290',
+                                                        'Content-Type': 'application/json'}),
+                                body: JSON.stringify(layoutData)
+                            });
+      console.log(await req);
+  }
   //=============================================================
   // render() {
   //   return (
@@ -264,6 +297,7 @@ export default class LocalStorageLayout extends React.PureComponent {
         <button onClick={(event) => this.toggleCollision()}>
           Toggle Collision: {(!this.state.collisionState).toString()}{" "}
         </button>
+        <button onClick={() => this.saveLayout()}>Save Layout</button>
 
         <div id="container">
           <div id="toolbox">{items.template}</div>
@@ -311,14 +345,4 @@ function saveToLS(key, value) {
       })
     );
   }
-}
-
-function sendToDb(value) {
-    const res = fetch('http://127.0.0.1:8000/projects/',
-                      {
-                          method: 'POST',
-                          headers: new Headers({'Authorization': 'Basic cm9vdDpyb290'}),
-                          body: JSON.stringify({data: value})
-                      });
-    console.log(res);
 }
