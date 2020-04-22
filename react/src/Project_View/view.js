@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import './view.css';
 
+import Header from '../header';
+
 function Arrow(props) {
     const style = {
         stroke: "black",
@@ -113,7 +115,6 @@ class Layout extends Component {
                                 headers: new Headers({'Authorization': 'Basic cm9vdDpyb290'})
                             });
           const projects = await res.json();
-          console.log(JSON.parse(projects.results[0].data));
           const layout = JSON.parse(projects.results[0].data).elements;
           this.setState({
             layout
@@ -138,9 +139,18 @@ class Layout extends Component {
 }
 
 class View extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+        };
+        this.state.username = localStorage.getItem('username');
+    }
+
     render() {
         return (
             <div>
+                <Header projectName="" user={this.state.username} />
                 <Layout />
             </div>
         );

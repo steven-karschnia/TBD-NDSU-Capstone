@@ -2,6 +2,7 @@ import React from "react";
 import RGL, { WidthProvider, Responsive } from "react-grid-layout";
 import "./create.css";
 import _ from "lodash";
+import Header from '../header';
 
 const ReactGridLayout = WidthProvider(Responsive);
 const originalLayout = getFromLS("layout") || [];
@@ -46,7 +47,9 @@ export default class LocalStorageLayout extends React.PureComponent {
       testCounter: 0,
       collisionState: false,
       project: props.project,
+      username: '',
     };
+    this.state.username = localStorage.getItem('username');
 
     this.onAddItem = this.onAddItem.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -293,6 +296,7 @@ export default class LocalStorageLayout extends React.PureComponent {
 
     return (
       <div>
+        <Header projectName="" user={this.state.username}/>
         <button onClick={(event) => this.onAddItem()}>Add Element</button>
         <button onClick={(event) => this.toggleCollision()}>
           Toggle Collision: {(!this.state.collisionState).toString()}{" "}

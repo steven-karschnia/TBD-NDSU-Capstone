@@ -2,55 +2,54 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import './index.css';
+import Login from './Login/login';
+import Register from './Login/register';
+import Landing from './Landing/landing';
 
 import {
     Route,
     NavLink,
-    HashRouter
+    BrowserRouter as Router,
+    Switch,
 } from "react-router-dom";
 
 import CreatePage from './Project_Create/create';
-import ViewPage from './Project_View/view';
-
-import genericUser from './user.png'
-import * as serviceWorker from './serviceWorker';
+import View from './Project_View/view';
 
 class Main extends Component {
     render() {
+            var logged = localStorage.getItem('logged');
+            if(logged == null) {
+                localStorage.setItem('logged', false);
+                logged = true;
+            }
             return(
-            <div id="container">
-            <HashRouter>
-                    <div className="header">
-                        <h1 className="projectName">Test Project</h1>
-                        <div className="user">
-                            <img src={genericUser}/>
-                                <p>User</p>
-                        </div>
-                    </div>
+                <div>
+                    <Router>
+                        <Switch>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/register">
+                                <Register />
+                            </Route>
+                            <Route path="/landing">
+                                <Landing />
+                            </Route>
+                            <Route path="/view">
+                                <View project="2"/>
+                            </Route>
+                            <Route path="/create">
+                                <CreatePage project="2"/>
+                            </Route>
+                        </Switch>
 
-                    <div className="Body">
-                        <div className="navLinks">
-                            <ul>
-                                <li> <NavLink to="/view">view</NavLink> </li>
-                                <li> <NavLink to="/create">create</NavLink> </li>
-                            </ul>
-                        </div>
-                        <div id="content">
-                            <Route path="/view" render={(props) => <ViewPage {...props} project="2"/>}/>
-                            <Route path="/create" render={(props) => <CreatePage {...props} project="2"/>}/>
-                        </div>
-
-                    </div>
-                </HashRouter>
-            </div>
-        );
+                    </Router>
+                </div>);
     }
 }
 
 
-ReactDOM.render(<Main />,  document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+ReactDOM.render(<Main />,  document.getElementById('root'));
