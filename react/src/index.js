@@ -5,12 +5,14 @@ import './index.css';
 import Login from './Login/login';
 import Register from './Login/register';
 import Landing from './Landing/landing';
+import Header from './header';
 
 import {
     Route,
     NavLink,
     BrowserRouter as Router,
     Switch,
+    Redirect
 } from "react-router-dom";
 
 import CreatePage from './Project_Create/create';
@@ -22,6 +24,10 @@ class Main extends Component {
             if(logged == null) {
                 localStorage.setItem('logged', false);
                 logged = true;
+            }
+
+            if(logged == false) {
+                return (<Redirect to="/login" />);
             }
             return(
                 <div>
@@ -42,8 +48,11 @@ class Main extends Component {
                             <Route path="/create">
                                 <CreatePage project="2"/>
                             </Route>
+                            <Route path="/header">
+                                <Header/>
+                            </Route>
                         </Switch>
-
+                        <Redirect to="/landing" />
                     </Router>
                 </div>);
     }

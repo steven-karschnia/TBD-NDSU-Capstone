@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import './index.js';
+import {Redirect} from "react-router-dom";
 
 import genericUser from './user.png'
 
@@ -8,9 +9,10 @@ export class Header extends Component {
         super(props);
         this.state = {
             projectName: props.projectName,
-            user: props.user
+            user: props.user,
         }
     }
+
     render() {
         return(
             <div className="header">
@@ -18,6 +20,7 @@ export class Header extends Component {
                 <div className="user">
                     <img src={genericUser}/>
                         <p>{this.state.user}</p>
+                        <a href="/login">Logout</a>
                 </div>
             </div>
         );
