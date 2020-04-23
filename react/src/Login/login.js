@@ -10,8 +10,9 @@ export class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            logged: false
+            logged: null
         }
+        this.state.logged = localStorage.getItem('logged');
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
@@ -48,6 +49,7 @@ export class Login extends Component {
             this.setState({logged: true});
         } else {
             console.log('incorrect');
+            this.setState({username: '', password: ''})
         }
     }
 
@@ -55,7 +57,7 @@ export class Login extends Component {
         if(this.state.logged) {
             return <Redirect to={{
                         pathname: "/landing"
-                    }} />
+                    }} />;
         }
         return(
             <div className="main">

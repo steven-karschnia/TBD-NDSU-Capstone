@@ -19,16 +19,24 @@ import CreatePage from './Project_Create/create';
 import View from './Project_View/view';
 
 class Main extends Component {
-    render() {
-            var logged = localStorage.getItem('logged');
-            if(logged == null) {
-                localStorage.setItem('logged', false);
-                logged = true;
-            }
+    constructor(props) {
+        super(props);
+        this.state = {
+            logged: false
+        }
+    }
 
-            if(logged == false) {
-                return (<Redirect to="/login" />);
-            }
+    componentDidMount() {
+        var logged = localStorage.getItem('logged');
+        if(logged == null || logged == false) {
+            localStorage.setItem('logged', false);
+            logged = false;
+        }
+        this.setState({logged});
+    }
+
+    render() {
+        if(this.state.logged) {
             return(
                 <div>
                     <Router>
@@ -54,7 +62,37 @@ class Main extends Component {
                         </Switch>
                         <Redirect to="/landing" />
                     </Router>
-                </div>);
+                </div>
+            );
+        } else {
+            return(
+                <div>
+                    <Router>
+                        <Switch>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/register">
+                                <Register />
+                            </Route>
+                            <Route path="/landing">
+                                <Landing />
+                            </Route>
+                            <Route path="/view">
+                                <View project="2"/>
+                            </Route>
+                            <Route path="/create">
+                                <CreatePage project="2"/>
+                            </Route>
+                            <Route path="/header">
+                                <Header/>
+                            </Route>
+                        </Switch>
+                        <Redirect to="/login" />
+                    </Router>
+                </div>
+            );
+        }
     }
 }
 
