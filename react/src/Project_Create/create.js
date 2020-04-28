@@ -7,6 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import RGL, { WidthProvider } from "react-grid-layout";
 import "./create.css";
 import "react-resizable/css/styles.css";
+import Header from '../header';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -57,7 +58,7 @@ const deleteItem = (source, droppableSource) => {
   sourceClone.splice(droppableSource.index, 1);
 };
 
-/* This is to style the JSX elements. I'm not sure how to 
+/* This is to style the JSX elements. I'm not sure how to
    make this work when they are in a different file. Make sure
    to install the package with the command: npm install --save styled-components */
 
@@ -207,12 +208,13 @@ const ARROW = [
   },
 ];
 
-export default class LocalStorageLayout extends React.Component {
+export default class CreatePage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       [uuid()]: [],
+      layout: []
     };
   }
   static defaultProps = {
@@ -285,7 +287,7 @@ export default class LocalStorageLayout extends React.Component {
   }
 
   async saveLayout() {
-    console.log(this.state.layout);
+    console.log(this.state);
     var layoutData = {
       name: "Test",
       company: "TBD",
@@ -326,6 +328,7 @@ export default class LocalStorageLayout extends React.Component {
     // console.log(this.state.itemHt, "itemHt");
     return (
       <div>
+        <Header username={localStorage.getItem('username')} />
         <div class="ddList">
           <select class="layoutType">
             <option value="Agile">Agile</option>
@@ -333,7 +336,7 @@ export default class LocalStorageLayout extends React.Component {
           </select>
         </div>
         <div>
-          <Button /*onClick={this.addList}*/>
+          <Button onClick={this.saveLayout}>
             {" "}
             {/* We need a way to change grids between Prince2 and Agile*/}
             <ButtonText>Save Layout</ButtonText>

@@ -9,14 +9,21 @@ import Header from './header';
 
 import {
     Route,
-    NavLink,
-    BrowserRouter as Router,
-    Switch,
+    HashRouter as Router,
     Redirect
 } from "react-router-dom";
 
 import CreatePage from './Project_Create/create';
 import View from './Project_View/view';
+
+function LandLog(props) {
+    const logged = props.logged;
+    if(logged) {
+        return <Redirect to="/landing" />
+    } else {
+        return <Redirect to="/login" />
+    }
+}
 
 class Main extends Component {
     constructor(props) {
@@ -27,72 +34,43 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        var logged = localStorage.getItem('logged');
+        const logged = localStorage.getItem('logged');
+        console.log(logged);
         if(logged == null || logged == false) {
             localStorage.setItem('logged', false);
-            logged = false;
+            this.setState({logged: false});
+        } else {
+            this.setState({logged: true});
         }
-        this.setState({logged});
+
     }
 
     render() {
-        if(this.state.logged) {
-            return(
-                <div>
-                    <Router>
-                        <Switch>
-                            <Route path="/login">
-                                <Login />
-                            </Route>
-                            <Route path="/register">
-                                <Register />
-                            </Route>
-                            <Route path="/landing">
-                                <Landing />
-                            </Route>
-                            <Route path="/view">
-                                <View project="2"/>
-                            </Route>
-                            <Route path="/create">
-                                <CreatePage project="2"/>
-                            </Route>
-                            <Route path="/header">
-                                <Header/>
-                            </Route>
-                        </Switch>
-                        <Redirect to="/landing" />
-                    </Router>
-                </div>
-            );
-        } else {
-            return(
-                <div>
-                    <Router>
-                        <Switch>
-                            <Route path="/login">
-                                <Login />
-                            </Route>
-                            <Route path="/register">
-                                <Register />
-                            </Route>
-                            <Route path="/landing">
-                                <Landing />
-                            </Route>
-                            <Route path="/view">
-                                <View project="2"/>
-                            </Route>
-                            <Route path="/create">
-                                <CreatePage project="2"/>
-                            </Route>
-                            <Route path="/header">
-                                <Header/>
-                            </Route>
-                        </Switch>
-                        <Redirect to="/login" />
-                    </Router>
-                </div>
-            );
-        }
+        return(
+            <div>
+                <Router>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/register">
+                        <Register />
+                    </Route>
+                    <Route path="/landing">
+                        <Landing />
+                    </Route>
+                    <Route path="/view">
+                        <View id=""/>
+                    </Route>
+                    <Route path="/create">
+                        <CreatePage id=""/>
+                    </Route>
+                    <Route path="/header">
+                        <Header/>
+                    </Route>
+                    <LandLog logged={this.state.logged} />
+                </Router>
+            </div>
+        );
     }
 }
 

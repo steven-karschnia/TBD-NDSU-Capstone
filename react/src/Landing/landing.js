@@ -5,11 +5,13 @@ import './landing.css';
 import {Redirect} from "react-router-dom";
 
 import Header from '../header';
+import './landing.css';
 
 import * as serviceWorker from '../serviceWorker';
 
 class ProjectList extends Component {
     constructor(props) {
+        console.log(props);
         super(props);
         this.state = {
             projects: [],
@@ -42,12 +44,17 @@ class ProjectList extends Component {
                 <tr>
                     <td onClick={() => this.loadProject(item)}>{item.name}</td>
                     <td>{item.company}</td>
+                    <td>
+                        <a href={"#/view?id=" + this.state.projects.indexOf(item)}>view</a>
+                        <br />
+                        <a href={"#/create?id=" + this.state.projects.indexOf(item)}>edit</a>
+                    </td>
                 </tr>
             );
         }
         if(this.state.load) {
             return <Redirect to={{
-                        pathname: "/view"
+                        pathname: "#/create"
                     }} />
         }
         return(
@@ -55,6 +62,7 @@ class ProjectList extends Component {
                 <tr>
                     <th>Project Name</th>
                     <th>Company Name</th>
+                    <th>Links</th>
                 </tr>
                 {items}
             </table>
@@ -79,8 +87,8 @@ export class Landing extends Component {
                 <div className="Body">
                     <div className="navLinks">
                         <ul>
-                            <li> <a href="/view">view</a> </li>
-                            <li> <a href="/create">create</a> </li>
+                            <li> <a href="#/view">view</a> </li>
+                            <li> <a href="#/create">create</a> </li>
                         </ul>
                     </div>
                 </div>

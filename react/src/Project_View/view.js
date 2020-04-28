@@ -97,11 +97,12 @@ class Module extends Component {
 }
 
 class Layout extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             layout: [],
-            received: false
+            received: false,
+            id: props.id
         };
     }
 
@@ -109,7 +110,7 @@ class Layout extends Component {
 
     async componentDidMount() {
         try {
-          const res = await fetch('http://127.0.0.1:8000/projects/',
+          const res = await fetch('http://127.0.0.1:8000/projects/' + this.state.id,
                             {
                                 method: 'GET',
                                 headers: new Headers({'Authorization': 'Basic cm9vdDpyb290'})
@@ -141,17 +142,20 @@ class Layout extends Component {
 class View extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             username: '',
+            id: props.id,
         };
         this.state.username = localStorage.getItem('username');
     }
-
+    componentDidMount() {
+    }
     render() {
         return (
             <div>
                 <Header projectName="" user={this.state.username} />
-                <Layout />
+                <Layout id={this.state.id}/>
             </div>
         );
 
