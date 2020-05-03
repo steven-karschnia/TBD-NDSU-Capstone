@@ -194,18 +194,21 @@ const ITEMS = [
     id: uuid(),
     content: "Item 4",
   },
-  {
-    id: uuid(),
-    content: "Arrow",
-    class: "arrow",
-  },
 ];
 
 const ARROW = [
   {
     id: uuid(),
     content: "Arrow",
+
   },
+];
+
+
+const DOCUMENTATION = [
+  {
+    id: uuid(),
+  }
 ];
 
 export default class CreatePage extends React.Component {
@@ -320,10 +323,25 @@ export default class CreatePage extends React.Component {
       }
     );
     console.log(await req);
+
+
+/*Bego Testers*/
+
+    const reorder = (list, startIndex, endIndex) => {
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+    
+      return result;
+    };
+    
+  
+
+
+
+
   }
 
-  // Normally you would want to split things out into separate components.
-  // But in this example everything is just done in one place for simplicity
   render() {
     // console.log(this.state.itemHt, "itemHt");
     return (
@@ -371,6 +389,60 @@ export default class CreatePage extends React.Component {
                     )}
                   </Draggable>
                 ))}
+
+
+                {ARROW.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <React.Fragment>
+                        <Item
+                          className="item"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          isDragging={snapshot.isDragging}
+                          style={provided.draggableProps.style}
+                        >
+                          {item.content}
+                        </Item>
+                        {snapshot.isDragging && (
+                          <Clone className="clone">{item.content}</Clone>
+                        )}
+                      </React.Fragment>
+                    )}
+                  </Draggable>
+                ))}
+
+
+
+                  {DOCUMENTATION.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <React.Fragment>
+                        <Item
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          isDragging={snapshot.isDragging}
+                          style={provided.draggableProps.style}
+                        >
+                            <div> Documentation <input
+                                type="text"
+                                value={this.state.value}
+                                onChange={this.handleChange}
+                            /> </div>
+                          {item.content}
+                        </Item>
+                        {snapshot.isDragging && (
+                          <Clone className="clone">{item.content}</Clone>
+                        )}
+                      </React.Fragment>
+                    )}
+                  </Draggable>
+                ))}
+
+
+
               </Kiosk>
             )}
           </Droppable>
@@ -430,6 +502,10 @@ export default class CreatePage extends React.Component {
           </Content>
         </DragDropContext>
       </div>
+
+      
     );
+    
   }
+
 }
