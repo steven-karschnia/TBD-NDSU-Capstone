@@ -199,8 +199,6 @@ const ITEMS = [
 const ARROW = [
   {
     id: uuid(),
-    content: "Arrow",
-
   },
 ];
 
@@ -265,6 +263,16 @@ export default class CreatePage extends React.Component {
           )
         );
         break;
+        case "ARROW":
+          this.setState({
+            [destination.droppableId]: copy(
+              ITEMS,
+              this.state[destination.droppableId],
+              source,
+              destination
+            ),
+          });
+          break;
     }
   };
 
@@ -395,6 +403,7 @@ export default class CreatePage extends React.Component {
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <React.Fragment>
+                       
                         <Item
                           className="item"
                           ref={provided.innerRef}
@@ -402,9 +411,28 @@ export default class CreatePage extends React.Component {
                           {...provided.dragHandleProps}
                           isDragging={snapshot.isDragging}
                           style={provided.draggableProps.style}
-                        >
+                        > <div>
+                          <i class="arrow right"></i>
+                        </div>
                           {item.content}
                         </Item>
+                        
+                        {snapshot.isDragging && (
+                          <Clone className="clone">{item.content}</Clone>
+                        )}
+                        <Item
+                          className="itemArrow"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          isDragging={snapshot.isDragging}
+                          style={provided.draggableProps.style}
+                        > <div>
+                          <i class="arrow up"></i>
+                        </div>
+                          {item.content}
+                        </Item>
+                        
                         {snapshot.isDragging && (
                           <Clone className="clone">{item.content}</Clone>
                         )}
@@ -426,7 +454,7 @@ export default class CreatePage extends React.Component {
                           isDragging={snapshot.isDragging}
                           style={provided.draggableProps.style}
                         >
-                            <div> Documentation <input
+                            <div> Documentation <textarea
                                 type="text"
                                 value={this.state.value}
                                 onChange={this.handleChange}
@@ -496,13 +524,13 @@ export default class CreatePage extends React.Component {
                     </ReactGridLayout>
                     {provided.placeholder}
                   </Container>
+                  
                 )}
               </Droppable>
             ))}
           </Content>
         </DragDropContext>
       </div>
-
       
     );
     
