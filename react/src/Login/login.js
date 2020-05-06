@@ -60,7 +60,7 @@ export class Login extends Component {
         }
         return(
             <div className="main">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} className="loginForm">
                     <input type="text" placeholder="username" className="username" value={this.state.username} onChange={this.handleUsername}/>
                     <br />
                     <input type="password" placeholder="password" className="password" value={this.state.password} onChange={this.handlePassword}/>
