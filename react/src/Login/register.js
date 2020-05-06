@@ -92,7 +92,7 @@ export class Register extends Component {
                     <br />
                     <input type="submit" className="submit" />
                     <br />
-                    <a href="/login">Already have an account? Login</a>
+                    <a href="/#/login">Already have an account? Login</a>
                 </form>
             </div>
         );

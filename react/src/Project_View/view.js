@@ -155,6 +155,7 @@ class View extends Component {
         return (
             <div>
                 <Header projectName="" user={this.state.username} />
+                <br />
                 <Layout id={this.state.id}/>
             </div>
         );

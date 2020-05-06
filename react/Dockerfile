@@ -5,7 +5,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json /app/
 ## install only the packages defined in the package-lock.json (faster than the normal npm install)
 RUN npm install
-RUN yarn add react-beautiful-dnd && npm install react-grid-layout react-beautiful-dnd styled-components
+RUN yarn add react-beautiful-dnd && npm install react-grid-layout react-beautiful-dnd styled-components jquery jquery-ui-bundle
 # Copy the contents of the project to the image
 COPY . .
 # Run 'npm start' when the container starts.

@@ -67,7 +67,7 @@ export class Login extends Component {
                     <br />
                     <input type="submit" className="submit" />
                     <br />
-                    <a href="/register">Don't have an account? Register here</a>
+                    <a href="/#/register">Don't have an account? Register here</a>
                 </form>
             </div>
         );
