@@ -45,9 +45,9 @@ class ProjectList extends Component {
                     <td onClick={() => this.loadProject(item)}>{item.name}</td>
                     <td>{item.company}</td>
                     <td>
-                        <a href={"#/view?id=" + this.state.projects.indexOf(item)}>view</a>
+                        <a href={"#/view?id=" + (this.state.projects.indexOf(item)+2)}>view</a>
                         <br />
-                        <a href={"#/create?id=" + this.state.projects.indexOf(item)}>edit</a>
+                        <a href={"#/create?id=" + (this.state.projects.indexOf(item)+2)}>edit</a>
                     </td>
                 </tr>
             );

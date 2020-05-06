@@ -60,7 +60,7 @@ class Main extends Component {
           <Route path="/view">
             <View id="" />
           </Route>
-          <Route path="/create">
+          <Route path="/create?id=:id">
             <CreatePage />
           </Route>
           <Route path="/header">

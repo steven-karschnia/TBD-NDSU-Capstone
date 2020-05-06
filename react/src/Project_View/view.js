@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import './view.css';
+import {useLocation} from 'react-router-dom';
 
 import Header from '../header';
 
@@ -116,7 +117,8 @@ class Layout extends Component {
                                 headers: new Headers({'Authorization': 'Basic cm9vdDpyb290'})
                             });
           const projects = await res.json();
-          const layout = JSON.parse(projects.results[0].data).elements;
+          console.log(projects);
+          const layout = JSON.parse(projects.data).elements;
           this.setState({
             layout
           });
@@ -139,17 +141,23 @@ class Layout extends Component {
     }
 }
 
+function getParams() {
+    let hash = window.location.hash;
+    return hash.substring(hash.indexOf("id")+3)
+}
+
 class View extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             username: '',
-            id: props.id,
+            id: '',
         };
+        this.state.id = getParams();
         this.state.username = localStorage.getItem('username');
     }
     componentDidMount() {
+
     }
     render() {
         return (
